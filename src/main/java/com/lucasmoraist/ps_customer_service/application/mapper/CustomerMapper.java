@@ -4,6 +4,10 @@ import com.lucasmoraist.ps_customer_service.application.dto.CustomerDTO;
 import com.lucasmoraist.ps_customer_service.domain.model.Customer;
 import com.lucasmoraist.ps_customer_service.infrastructure.api.web.request.CustomerRequest;
 import com.lucasmoraist.ps_customer_service.infrastructure.database.entity.CustomerEntity;
+import com.lucasmoraist.ps_customer_service.infrastructure.database.entity.DocumentEntity;
+import com.lucasmoraist.ps_customer_service.infrastructure.database.entity.PaymentKeyEntity;
+
+import java.util.ArrayList;
 
 public final class CustomerMapper {
 
@@ -27,26 +31,44 @@ public final class CustomerMapper {
                 request.name(),
                 request.email(),
                 request.password(),
-                request.documents(),
+                request.documents()
+                        .stream()
+                        .map(DocumentMapper::toDto)
+                        .toList(),
                 request.paymentKeys()
+                        .stream()
+                        .map(PaymentKeyMapper::toDto)
+                        .toList()
         );
     }
 
     public static CustomerEntity toEntity(Customer customer) {
-        return new CustomerEntity(
+        CustomerEntity customerEntity = new CustomerEntity(
                 null,
                 customer.name(),
                 customer.email(),
                 customer.password(),
-                customer.documents()
-                        .stream()
-                        .map(DocumentMapper::toEntity)
-                        .toList(),
-                customer.paymentKeys()
-                        .stream()
-                        .map(PaymentKeyMapper::toEntity)
-                        .toList()
+                new ArrayList<>(),
+                new ArrayList<>()
         );
+
+        if (customer.documents() != null) {
+            customerEntity.setDocuments(customer.documents().stream().map(d -> {
+                DocumentEntity de = DocumentMapper.toEntity(d);
+                de.setCustomer(customerEntity);
+                return de;
+            }).toList());
+        }
+
+        if (customer.paymentKeys() != null) {
+            customerEntity.setPaymentKeys(customer.paymentKeys().stream().map(p -> {
+                PaymentKeyEntity pe = PaymentKeyMapper.toEntity(p);
+                pe.setCustomer(customerEntity);
+                return pe;
+            }).toList());
+        }
+
+        return customerEntity;
     }
 
 }
