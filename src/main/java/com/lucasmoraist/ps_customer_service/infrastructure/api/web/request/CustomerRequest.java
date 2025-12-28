@@ -17,7 +17,7 @@ public record CustomerRequest(
         @Size(min = 6, message = "Password must be at least 6 characters long")
         String password,
         @NotBlank(message = "Account number is required")
-        @Size(min = 6, max = 7, message = "Account number must be between 6 and 7 characters long")
+        @Size(min = 7, max = 8, message = "Account number must be between 7 and 8 characters long")
         String accountNumber,
         @NotEmpty(message = "At least one document is required")
         List<DocumentRequest> documents,
