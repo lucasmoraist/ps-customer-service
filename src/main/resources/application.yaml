@@ -1,3 +1,15 @@
 spring:
+  profiles:
+    active: ${PROFILE_ACTIVE:local}
   application:
     name: ps-customer-service
+
+logging:
+  level:
+    com.lucasmoraist: ${LOG_LEVEL:DEBUG}
+
+app:
+  security-ignore:
+    actuatorHealth: /actuator/health
+    actuatorLiveness: /actuator/health/liveness
+    actuatorReadiness: /actuator/health/readiness
