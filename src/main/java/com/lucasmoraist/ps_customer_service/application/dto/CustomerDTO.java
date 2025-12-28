@@ -9,6 +9,7 @@ public record CustomerDTO(
         String name,
         String email,
         String password,
+        String accountNumber,
         List<Document> documents,
         List<PaymentKey> paymentKeys
 ) {
