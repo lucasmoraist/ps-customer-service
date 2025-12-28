@@ -17,6 +17,9 @@ public final class CustomerMapper {
         throw new IllegalStateException("Utility class");
     }
 
+    private static final String DEFAULT_AGENCY = "0001";
+    private static final String DEFAULT_ACCOUNT_TYPE = "CACC";
+
     public static Customer toDomain(CustomerEntity entity) {
         return new Customer(
                 entity.getId(),
@@ -41,7 +44,13 @@ public final class CustomerMapper {
                 customerDTO.name(),
                 customerDTO.email(),
                 customerDTO.password(),
-                new Account(null, BigDecimal.ZERO),
+                new Account(
+                        null,
+                        DEFAULT_AGENCY,
+                        customerDTO.accountNumber(),
+                        DEFAULT_ACCOUNT_TYPE,
+                        BigDecimal.ZERO
+                ),
                 customerDTO.documents(),
                 customerDTO.paymentKeys()
         );
@@ -52,6 +61,7 @@ public final class CustomerMapper {
                 request.name(),
                 request.email(),
                 request.password(),
+                request.accountNumber(),
                 request.documents()
                         .stream()
                         .map(DocumentMapper::toDto)

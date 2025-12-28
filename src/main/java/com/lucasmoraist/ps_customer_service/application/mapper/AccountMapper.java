@@ -12,6 +12,9 @@ public final class AccountMapper {
     public static Account toDomain(AccountEntity account) {
         return new Account(
                 account.getId(),
+                account.getAgency(),
+                account.getAccountNumber(),
+                account.getAccountType(),
                 account.getBalance()
         );
     }
@@ -19,6 +22,9 @@ public final class AccountMapper {
     public static AccountEntity toEntity(Account account) {
         return new AccountEntity(
                 null,
+                account.agency(),
+                account.accountNumber(),
+                account.accountType(),
                 account.balance()
         );
     }
