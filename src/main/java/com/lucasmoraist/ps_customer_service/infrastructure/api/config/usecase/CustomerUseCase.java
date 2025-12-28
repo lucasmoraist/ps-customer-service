@@ -3,7 +3,7 @@ package com.lucasmoraist.ps_customer_service.infrastructure.api.config.usecase;
 import com.lucasmoraist.ps_customer_service.application.gateway.CustomerPersistence;
 import com.lucasmoraist.ps_customer_service.application.usecases.customer.CreateCustomerCase;
 import com.lucasmoraist.ps_customer_service.application.usecases.customer.FindByCustEmailCase;
-import com.lucasmoraist.ps_customer_service.application.usecases.customer.ListCustomersCase;
+import com.lucasmoraist.ps_customer_service.application.usecases.customer.FindByCustIdCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,13 +20,13 @@ public class CustomerUseCase {
     }
 
     @Bean
-    public ListCustomersCase listCustomersCase() {
-        return new ListCustomersCase(customerPersistence);
+    public FindByCustEmailCase findByCustEmailCase() {
+        return new FindByCustEmailCase(customerPersistence);
     }
 
     @Bean
-    public FindByCustEmailCase findByCustEmailCase() {
-        return new FindByCustEmailCase(customerPersistence);
+    public FindByCustIdCase findByCustIdCase() {
+        return new FindByCustIdCase(customerPersistence);
     }
 
 }
