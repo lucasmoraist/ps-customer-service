@@ -1,5 +1,6 @@
 package com.lucasmoraist.ps_customer_service.domain.message;
 
+import com.lucasmoraist.ps_customer_service.domain.enums.PaymentStatus;
 import com.lucasmoraist.ps_customer_service.domain.model.Payee;
 import com.lucasmoraist.ps_customer_service.domain.model.Payer;
 
@@ -12,6 +13,7 @@ public record PaymentMessage(
         Payer payer,
         Payee payee,
         BigDecimal amount,
+        PaymentStatus status,
         LocalDateTime executionDateTime
 ) {
 

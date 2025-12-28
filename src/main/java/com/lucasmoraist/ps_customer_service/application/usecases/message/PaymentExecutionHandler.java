@@ -26,6 +26,7 @@ public class PaymentExecutionHandler {
 
         Customer payer = this.customerPersistence.findById(payerId);
         Customer payee = this.customerPersistence.findById(payeeId);
+        // TODO: Caso não encontre deve notificar cliente que transação falhou
         
         this.customerPersistence.updateBalance(payer, payee, payload.amount());
         this.notificationGateway.sendNotification(payload);
