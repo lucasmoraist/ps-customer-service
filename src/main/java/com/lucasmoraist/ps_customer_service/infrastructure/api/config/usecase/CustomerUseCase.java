@@ -1,4 +1,4 @@
-package com.lucasmoraist.ps_customer_service.infrastructure.config.usecase;
+package com.lucasmoraist.ps_customer_service.infrastructure.api.config.usecase;
 
 import com.lucasmoraist.ps_customer_service.application.gateway.CustomerPersistence;
 import com.lucasmoraist.ps_customer_service.application.usecases.customer.CreateCustomerCase;
