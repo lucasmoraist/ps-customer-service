@@ -11,6 +11,15 @@ public final class DocumentMapper {
         throw new IllegalStateException("Utility class");
     }
 
+    public static Document toDomain(DocumentEntity documentEntity) {
+        return new Document(
+                documentEntity.getId(),
+                documentEntity.getType(),
+                documentEntity.getNumber(),
+                null
+        );
+    }
+
     public static Document toDto(DocumentRequest documentRequest) {
         return new Document(
                 null,

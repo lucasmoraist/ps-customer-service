@@ -10,6 +10,14 @@ public final class PaymentKeyMapper {
         throw new IllegalStateException("Utility class");
     }
 
+    public static PaymentKey toDomain(PaymentKeyEntity paymentKeyEntity) {
+        return new PaymentKey(
+                paymentKeyEntity.getId(),
+                paymentKeyEntity.getKeyValue(),
+                null
+        );
+    }
+
     public static PaymentKey toDto(PaymentKeyRequest paymentKeyRequest) {
         return new PaymentKey(
                 null,
