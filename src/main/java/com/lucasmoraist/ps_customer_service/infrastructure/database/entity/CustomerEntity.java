@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -39,5 +40,13 @@ public class CustomerEntity {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PaymentKeyEntity> paymentKeys = new ArrayList<>();
+
+    public void transfer(BigDecimal amount) {
+        this.account.setBalance(this.account.getBalance().add(amount));
+    }
+
+    public void withdraw(BigDecimal amount) {
+        this.account.setBalance(this.account.getBalance().subtract(amount));
+    }
 
 }
