@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +30,9 @@ public class CustomerEntity {
     @Column(unique = true)
     private String email;
     private String password;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private AccountEntity account;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DocumentEntity> documents = new ArrayList<>();

@@ -8,6 +8,7 @@ public record Customer(
         String name,
         String email,
         String password,
+        Account account,
         List<Document> documents,
         List<PaymentKey> paymentKeys
 ) {
