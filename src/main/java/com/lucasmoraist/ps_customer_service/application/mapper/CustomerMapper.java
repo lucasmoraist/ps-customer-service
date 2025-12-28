@@ -15,6 +15,23 @@ public final class CustomerMapper {
         throw new IllegalStateException("Utility class");
     }
 
+    public static Customer toDomain(CustomerEntity entity) {
+        return new Customer(
+                entity.getId(),
+                entity.getName(),
+                entity.getEmail(),
+                entity.getPassword(),
+                entity.getDocuments()
+                        .stream()
+                        .map(DocumentMapper::toDomain)
+                        .toList(),
+                entity.getPaymentKeys()
+                        .stream()
+                        .map(PaymentKeyMapper::toDomain)
+                        .toList()
+        );
+    }
+
     public static Customer toDomain(CustomerDTO customerDTO) {
         return new Customer(
                 null,
