@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.UUID;
 
 @Log4j2
 @Component
@@ -34,21 +34,20 @@ public class CustomerPersistenceImpl implements CustomerPersistence {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Customer> findAll() {
-        log.debug("Finding all customers");
-        return this.repository.findAll()
-                .stream()
-                .map(CustomerMapper::toDomain)
-                .toList();
-    }
-
-    @Override
     public Customer findByEmail(String email) {
         log.debug("Finding customer by email: {}", email);
         CustomerEntity entity = this.repository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Customer not found with email: " + email));
         return CustomerMapper.toDomain(entity);
+    }
+
+    @Override
+    public Customer findById(UUID id) {
+        return this.repository.findById(id)
+                .stream()
+                .map(CustomerMapper::toDomain)
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Customer not found with id: " + id));
     }
 
 }
