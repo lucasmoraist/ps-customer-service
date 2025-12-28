@@ -7,4 +7,5 @@ import java.util.List;
 public interface CustomerPersistence {
     void save(Customer customer);
     List<Customer> findAll();
+    Customer findByEmail(String email);
 }

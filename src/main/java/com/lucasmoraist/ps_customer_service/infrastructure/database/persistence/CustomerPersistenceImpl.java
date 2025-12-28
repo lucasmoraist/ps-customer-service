@@ -2,6 +2,7 @@ package com.lucasmoraist.ps_customer_service.infrastructure.database.persistence
 
 import com.lucasmoraist.ps_customer_service.application.gateway.CustomerPersistence;
 import com.lucasmoraist.ps_customer_service.application.mapper.CustomerMapper;
+import com.lucasmoraist.ps_customer_service.domain.exceptions.NotFoundException;
 import com.lucasmoraist.ps_customer_service.domain.model.Customer;
 import com.lucasmoraist.ps_customer_service.infrastructure.database.entity.CustomerEntity;
 import com.lucasmoraist.ps_customer_service.infrastructure.database.repository.CustomerRepository;
@@ -40,6 +41,14 @@ public class CustomerPersistenceImpl implements CustomerPersistence {
                 .stream()
                 .map(CustomerMapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    public Customer findByEmail(String email) {
+        log.debug("Finding customer by email: {}", email);
+        CustomerEntity entity = this.repository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Customer not found with email: " + email));
+        return CustomerMapper.toDomain(entity);
     }
 
 }
