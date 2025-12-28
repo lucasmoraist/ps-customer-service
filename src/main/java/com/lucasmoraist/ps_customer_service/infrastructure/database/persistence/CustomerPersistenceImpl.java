@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Log4j2
 @Component
 @RequiredArgsConstructor
@@ -22,10 +24,22 @@ public class CustomerPersistenceImpl implements CustomerPersistence {
     @Override
     @Transactional
     public void save(Customer customer) {
+        log.debug("Saving customer: {}", customer);
         CustomerEntity entity = CustomerMapper.toEntity(customer);
         entity.setPassword(this.passwordEncoder.encode(entity.getPassword()));
 
         this.repository.save(entity);
+        log.debug("Customer saved with id: {}", entity.getId());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Customer> findAll() {
+        log.debug("Finding all customers");
+        return this.repository.findAll()
+                .stream()
+                .map(CustomerMapper::toDomain)
+                .toList();
     }
 
 }
