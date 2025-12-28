@@ -22,6 +22,9 @@ public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    private String agency;
+    private String accountNumber;
+    private String accountType;
     private BigDecimal balance;
 
 }

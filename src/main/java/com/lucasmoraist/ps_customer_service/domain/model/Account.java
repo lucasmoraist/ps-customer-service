@@ -5,6 +5,9 @@ import java.util.UUID;
 
 public record Account(
         UUID id,
+        String agency,
+        String accountNumber,
+        String accountType,
         BigDecimal balance
 ) {
 
