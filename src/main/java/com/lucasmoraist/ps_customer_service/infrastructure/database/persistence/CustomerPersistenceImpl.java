@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Log4j2
@@ -49,6 +50,19 @@ public class CustomerPersistenceImpl implements CustomerPersistence {
                 .map(CustomerMapper::toDomain)
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("Customer not found with id: " + id));
+    }
+
+    @Override
+    public void updateBalance(Customer payer, Customer payee, BigDecimal amount) {
+        log.debug("Updating balance: payer={}, payee={}, amount={}", payer.id(), payee.id(), amount);
+        CustomerEntity payerEntity = CustomerMapper.toEntity(payer);
+        CustomerEntity payeeEntity = CustomerMapper.toEntity(payee);
+
+        payerEntity.withdraw(amount);
+        payeeEntity.transfer(amount);
+
+        this.repository.save(payerEntity);
+        this.repository.save(payeeEntity);
     }
 
 }
