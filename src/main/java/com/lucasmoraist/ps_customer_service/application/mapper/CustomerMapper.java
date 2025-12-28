@@ -2,6 +2,7 @@ package com.lucasmoraist.ps_customer_service.application.mapper;
 
 import com.lucasmoraist.ps_customer_service.application.dto.CustomerDTO;
 import com.lucasmoraist.ps_customer_service.domain.model.Customer;
+import com.lucasmoraist.ps_customer_service.infrastructure.api.web.request.CustomerRequest;
 import com.lucasmoraist.ps_customer_service.infrastructure.database.entity.CustomerEntity;
 
 public final class CustomerMapper {
@@ -18,6 +19,16 @@ public final class CustomerMapper {
                 customerDTO.password(),
                 customerDTO.documents(),
                 customerDTO.paymentKeys()
+        );
+    }
+
+    public static CustomerDTO toDto(CustomerRequest request) {
+        return new CustomerDTO(
+                request.name(),
+                request.email(),
+                request.password(),
+                request.documents(),
+                request.paymentKeys()
         );
     }
 
