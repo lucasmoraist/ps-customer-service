@@ -2,6 +2,8 @@ package com.lucasmoraist.ps_customer_service.application.usecases.message;
 
 import com.lucasmoraist.ps_customer_service.application.gateway.CustomerPersistence;
 import com.lucasmoraist.ps_customer_service.application.gateway.NotificationGateway;
+import com.lucasmoraist.ps_customer_service.domain.enums.PaymentStatus;
+import com.lucasmoraist.ps_customer_service.domain.exceptions.NotFoundException;
 import com.lucasmoraist.ps_customer_service.domain.message.PaymentMessage;
 import com.lucasmoraist.ps_customer_service.domain.model.Customer;
 import org.springframework.messaging.Message;
@@ -23,13 +25,15 @@ public class PaymentExecutionHandler {
 
         UUID payerId = payload.payer().id();
         UUID payeeId = payload.payee().id();
+        try {
+            Customer payer = this.customerPersistence.findById(payerId);
+            Customer payee = this.customerPersistence.findById(payeeId);
 
-        Customer payer = this.customerPersistence.findById(payerId);
-        Customer payee = this.customerPersistence.findById(payeeId);
-        // TODO: Caso não encontre deve notificar cliente que transação falhou
-        
-        this.customerPersistence.updateBalance(payer, payee, payload.amount());
-        this.notificationGateway.sendNotification(payload);
+            this.customerPersistence.updateBalance(payer, payee, payload.amount());
+            this.notificationGateway.sendNotification(payload, PaymentStatus.COMPLETED);
+        } catch (NotFoundException ex) {
+            this.notificationGateway.sendNotification(payload, PaymentStatus.FAILED);
+        }
     }
 
 }

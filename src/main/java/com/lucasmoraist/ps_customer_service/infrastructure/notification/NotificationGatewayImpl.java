@@ -1,6 +1,7 @@
 package com.lucasmoraist.ps_customer_service.infrastructure.notification;
 
 import com.lucasmoraist.ps_customer_service.application.gateway.NotificationGateway;
+import com.lucasmoraist.ps_customer_service.domain.enums.PaymentStatus;
 import com.lucasmoraist.ps_customer_service.domain.message.PaymentMessage;
 import com.lucasmoraist.ps_customer_service.infrastructure.queue.producer.CustomerProducer;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,16 @@ public class NotificationGatewayImpl implements NotificationGateway {
     private final CustomerProducer producer;
 
     @Override
-    public void sendNotification(PaymentMessage paymentMessage) {
+    public void sendNotification(PaymentMessage paymentMessage, PaymentStatus status) {
         log.info("Sending notification for payment message: {}", paymentMessage);
+        paymentMessage = new PaymentMessage(
+                paymentMessage.transactionId(),
+                paymentMessage.payer(),
+                paymentMessage.payee(),
+                paymentMessage.amount(),
+                status,
+                paymentMessage.executionDateTime()
+        );
         producer.sendMessage(withPayload(paymentMessage)
                 .build()
         );
