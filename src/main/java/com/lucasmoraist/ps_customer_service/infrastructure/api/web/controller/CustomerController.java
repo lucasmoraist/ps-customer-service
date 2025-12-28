@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.util.UUID;
 
 @RestController
@@ -26,8 +27,9 @@ public class CustomerController implements CustomerRoutes {
     @Override
     public ResponseEntity<Void> registerCustomer(CustomerRequest request) {
         CustomerDTO dto = CustomerMapper.toDto(request);
-        this.createCustomerCase.execute(dto);
-        return ResponseEntity.status(201).build();
+        Customer customer = this.createCustomerCase.execute(dto);
+        URI uri = URI.create("/api/v1/customer/" + customer.id());
+        return ResponseEntity.created(uri).build();
     }
 
     @Override

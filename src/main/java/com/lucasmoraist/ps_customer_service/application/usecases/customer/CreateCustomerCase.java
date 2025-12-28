@@ -13,9 +13,9 @@ public class CreateCustomerCase {
         this.customerPersistence = customerPersistence;
     }
 
-    public void execute(CustomerDTO customerDTO) {
+    public Customer execute(CustomerDTO customerDTO) {
         Customer customer = CustomerMapper.toDomain(customerDTO);
-        this.customerPersistence.save(customer);
+        return this.customerPersistence.save(customer);
     }
 
 }

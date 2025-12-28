@@ -24,13 +24,14 @@ public class CustomerPersistenceImpl implements CustomerPersistence {
 
     @Override
     @Transactional
-    public void save(Customer customer) {
+    public Customer save(Customer customer) {
         log.debug("Saving customer: {}", customer);
         CustomerEntity entity = CustomerMapper.toEntity(customer);
         entity.setPassword(this.passwordEncoder.encode(entity.getPassword()));
 
-        this.repository.save(entity);
+        CustomerEntity entitySaved = this.repository.save(entity);
         log.debug("Customer saved with id: {}", entity.getId());
+        return CustomerMapper.toDomain(entitySaved);
     }
 
     @Override

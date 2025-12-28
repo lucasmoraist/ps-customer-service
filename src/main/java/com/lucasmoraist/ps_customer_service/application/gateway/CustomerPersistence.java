@@ -5,7 +5,7 @@ import com.lucasmoraist.ps_customer_service.domain.model.Customer;
 import java.util.UUID;
 
 public interface CustomerPersistence {
-    void save(Customer customer);
+    Customer save(Customer customer);
     Customer findByEmail(String email);
     Customer findById(UUID id);
 }
