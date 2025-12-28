@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Log4j2
 @Component
@@ -19,6 +20,7 @@ public class CustomerPersistenceImpl implements CustomerPersistence {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public void save(Customer customer) {
         CustomerEntity entity = CustomerMapper.toEntity(customer);
         entity.setPassword(this.passwordEncoder.encode(entity.getPassword()));
