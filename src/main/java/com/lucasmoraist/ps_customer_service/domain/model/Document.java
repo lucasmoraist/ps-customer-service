@@ -7,7 +7,8 @@ import java.util.UUID;
 public record Document(
         UUID id,
         DocumentType type,
-        String number
+        String number,
+        Customer customer
 ) {
 
 }

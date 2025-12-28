@@ -4,7 +4,8 @@ import java.util.UUID;
 
 public record PaymentKey(
         UUID id,
-        String keyValue
+        String keyValue,
+        Customer customer
 ) {
 
 }
