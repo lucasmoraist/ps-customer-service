@@ -1,12 +1,14 @@
 package com.lucasmoraist.ps_customer_service.application.mapper;
 
 import com.lucasmoraist.ps_customer_service.application.dto.CustomerDTO;
+import com.lucasmoraist.ps_customer_service.domain.model.Account;
 import com.lucasmoraist.ps_customer_service.domain.model.Customer;
 import com.lucasmoraist.ps_customer_service.infrastructure.api.web.request.CustomerRequest;
 import com.lucasmoraist.ps_customer_service.infrastructure.database.entity.CustomerEntity;
 import com.lucasmoraist.ps_customer_service.infrastructure.database.entity.DocumentEntity;
 import com.lucasmoraist.ps_customer_service.infrastructure.database.entity.PaymentKeyEntity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public final class CustomerMapper {
@@ -21,6 +23,7 @@ public final class CustomerMapper {
                 entity.getName(),
                 entity.getEmail(),
                 entity.getPassword(),
+                AccountMapper.toDomain(entity.getAccount()),
                 entity.getDocuments()
                         .stream()
                         .map(DocumentMapper::toDomain)
@@ -38,6 +41,7 @@ public final class CustomerMapper {
                 customerDTO.name(),
                 customerDTO.email(),
                 customerDTO.password(),
+                new Account(null, BigDecimal.ZERO),
                 customerDTO.documents(),
                 customerDTO.paymentKeys()
         );
@@ -65,6 +69,7 @@ public final class CustomerMapper {
                 customer.name(),
                 customer.email(),
                 customer.password(),
+                AccountMapper.toEntity(customer.account()),
                 new ArrayList<>(),
                 new ArrayList<>()
         );
