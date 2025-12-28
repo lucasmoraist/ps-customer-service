@@ -1,0 +1,19 @@
+{
+  "transactionId": "402d4d0d-21b8-41ae-b134-f7bb4e508e23",
+  "payer": {
+    "id": "402d4d0d-21b8-41ae-b134-f7bb4e508e23",
+    "name": "John Doe",
+    "agency": "0001",
+    "accountNumber": "000002-0",
+    "accountType": "CACC"
+  },
+  "payee": {
+    "id": "54385441-279c-4e34-8cb6-7949794b9d14",
+    "name": "John Smith",
+    "agency": "0001",
+    "accountNumber": "000001-0",
+    "accountType": "CACC"
+  },
+  "amount": 1500.0,
+  "executionDateTime": "2024-06-15T10:30:00"
+}
