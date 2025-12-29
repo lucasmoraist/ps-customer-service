@@ -1,5 +1,7 @@
 package com.lucasmoraist.ps_customer_service.infrastructure.api.web.handler;
 
+import com.lucasmoraist.ps_customer_service.application.dto.ExceptionDTO;
+import com.lucasmoraist.ps_customer_service.domain.exceptions.EmailException;
 import com.lucasmoraist.ps_customer_service.domain.exceptions.NotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +24,21 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<List<DataException>> handleDataRequestException(MethodArgumentNotValidException ex) {
-        var errors = ex.getFieldErrors()
+        List<DataException> errors = ex.getFieldErrors()
                 .stream()
                 .map(DataException::new)
                 .toList();
         log.warn("Data request exception");
 
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(EmailException.class)
+    protected ResponseEntity<ExceptionDTO> handleEmailException(EmailException ex) {
+        log.warn("Email exception", ex);
+        return ResponseEntity.badRequest().body(new ExceptionDTO(
+                ex.getMessage()
+        ));
     }
 
     @ExceptionHandler(Exception.class)
@@ -38,11 +48,9 @@ public class RestExceptionHandler {
     }
 
     public record DataException(String label, String message) {
-
         public DataException(FieldError error) {
             this(error.getField(), error.getDefaultMessage());
         }
-
     }
 
 }
