@@ -2,6 +2,7 @@ package com.lucasmoraist.ps_customer_service.infrastructure.database.persistence
 
 import com.lucasmoraist.ps_customer_service.application.gateway.CustomerPersistence;
 import com.lucasmoraist.ps_customer_service.application.mapper.CustomerMapper;
+import com.lucasmoraist.ps_customer_service.domain.exceptions.EmailException;
 import com.lucasmoraist.ps_customer_service.domain.exceptions.NotFoundException;
 import com.lucasmoraist.ps_customer_service.domain.model.Customer;
 import com.lucasmoraist.ps_customer_service.infrastructure.database.entity.CustomerEntity;
@@ -29,6 +30,12 @@ public class CustomerPersistenceImpl implements CustomerPersistence {
         log.debug("Saving customer: {}", customer);
         CustomerEntity entity = CustomerMapper.toEntity(customer);
         entity.setPassword(this.passwordEncoder.encode(entity.getPassword()));
+
+        this.repository.findByEmail(customer.email())
+                .ifPresent(c -> {
+                    log.error("Email already exists: {}", c.getEmail());
+                    throw new EmailException("Email already exists");
+                });
 
         CustomerEntity entitySaved = this.repository.save(entity);
         log.debug("Customer saved with id: {}", entity.getId());
