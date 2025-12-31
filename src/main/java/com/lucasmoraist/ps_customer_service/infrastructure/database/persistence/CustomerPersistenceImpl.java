@@ -43,14 +43,6 @@ public class CustomerPersistenceImpl implements CustomerPersistence {
     }
 
     @Override
-    public Customer findByEmail(String email) {
-        log.debug("Finding customer by email: {}", email);
-        CustomerEntity entity = this.repository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("Customer not found with email: " + email));
-        return CustomerMapper.toDomain(entity);
-    }
-
-    @Override
     public Customer findById(UUID id) {
         return this.repository.findById(id)
                 .stream()

@@ -7,7 +7,6 @@ import java.util.UUID;
 
 public interface CustomerPersistence {
     Customer save(Customer customer);
-    Customer findByEmail(String email);
     Customer findById(UUID id);
     void updateBalance(Customer payer, Customer payee, BigDecimal amount);
 }

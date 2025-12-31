@@ -2,8 +2,6 @@ package com.lucasmoraist.ps_customer_service.infrastructure.api.config.usecase;
 
 import com.lucasmoraist.ps_customer_service.application.gateway.CustomerPersistence;
 import com.lucasmoraist.ps_customer_service.application.usecases.customer.CreateCustomerCase;
-import com.lucasmoraist.ps_customer_service.application.usecases.customer.FindByCustEmailCase;
-import com.lucasmoraist.ps_customer_service.application.usecases.customer.FindByCustIdCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
