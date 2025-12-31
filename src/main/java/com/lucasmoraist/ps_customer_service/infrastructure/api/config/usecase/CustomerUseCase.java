@@ -17,14 +17,4 @@ public class CustomerUseCase {
         return new CreateCustomerCase(customerPersistence);
     }
 
-    @Bean
-    public FindByCustEmailCase findByCustEmailCase() {
-        return new FindByCustEmailCase(customerPersistence);
-    }
-
-    @Bean
-    public FindByCustIdCase findByCustIdCase() {
-        return new FindByCustIdCase(customerPersistence);
-    }
-
 }
