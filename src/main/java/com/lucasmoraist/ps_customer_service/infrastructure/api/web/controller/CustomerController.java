@@ -3,7 +3,9 @@ package com.lucasmoraist.ps_customer_service.infrastructure.api.web.controller;
 import com.lucasmoraist.ps_customer_service.application.dto.CustomerDTO;
 import com.lucasmoraist.ps_customer_service.application.mapper.CustomerMapper;
 import com.lucasmoraist.ps_customer_service.application.usecases.customer.CreateCustomerCase;
+import com.lucasmoraist.ps_customer_service.application.usecases.customer.FindPayeeByPaymentKeyCase;
 import com.lucasmoraist.ps_customer_service.domain.model.Customer;
+import com.lucasmoraist.ps_customer_service.domain.model.Payee;
 import com.lucasmoraist.ps_customer_service.infrastructure.api.web.request.CustomerRequest;
 import com.lucasmoraist.ps_customer_service.infrastructure.api.web.router.CustomerRoutes;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.net.URI;
 public class CustomerController implements CustomerRoutes {
 
     private final CreateCustomerCase createCustomerCase;
+    private final FindPayeeByPaymentKeyCase findPayeeByPaymentKeyCase;
 
     @Override
     public ResponseEntity<Void> registerCustomer(CustomerRequest request) {
@@ -24,6 +27,12 @@ public class CustomerController implements CustomerRoutes {
         Customer customer = this.createCustomerCase.execute(dto);
         URI uri = URI.create("/api/v1/customer/" + customer.id());
         return ResponseEntity.created(uri).build();
+    }
+
+    @Override
+    public ResponseEntity<Payee> getPayeeByPaymentKey(String paymentKey) {
+        Payee payee = this.findPayeeByPaymentKeyCase.execute(paymentKey);
+        return ResponseEntity.ok().body(payee);
     }
 
 }
