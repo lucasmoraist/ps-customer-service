@@ -31,8 +31,10 @@ public class PaymentExecutionHandler {
 
             this.customerPersistence.updateBalance(payer, payee, payload.amount());
             this.notificationGateway.sendNotification(payload, PaymentStatus.COMPLETED);
+            // TODO: Enviar para payment-service para registrar a transação
         } catch (NotFoundException ex) {
             this.notificationGateway.sendNotification(payload, PaymentStatus.FAILED);
+            // TODO: Enviar para payment-service para registrar a transação
         }
     }
 
